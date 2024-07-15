@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { getDatabase, get, ref, child } from "firebase/database";
-import firebaseApp from "../../services/firebaseApp";
+import { get, ref, child } from "firebase/database";
+import { database } from "../../services/firebaseApp";
 
 /**
  * useGetValue hook is a custom React hook that retrieves data from the Firebase
@@ -31,8 +31,6 @@ export default function useGetValue({
 
   const getValue = async () => {
     try {
-      // Get a reference to the Firebase Realtime Database
-      const database = getDatabase(firebaseApp);
       const rootReference = ref(database);
       const usersReference = child(rootReference, path);
       const dbGet = await get(usersReference);
