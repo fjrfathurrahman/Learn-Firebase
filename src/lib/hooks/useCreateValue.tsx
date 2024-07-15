@@ -11,6 +11,7 @@ import { child, push, ref } from "firebase/database";
  */
 export default function useCreateValue() {
   const [isLoading, setIsLoading] = useState(false);
+  const data = useRef({});
   const error = useRef(null);
   const success = useRef(false);
 
@@ -24,7 +25,9 @@ export default function useCreateValue() {
       const rootReference = ref(database); // get a reference to the root of the database
       const dbPath = child(rootReference, path); // get a reference to the specified path in the database
       const dbPush = await push(dbPath, value);
+      data.current = { key: dbPush.key, value };
       success.current = true;
+
     } catch (pushError: any) {
       // if there's an error, set the error state with the error message
       error.current = pushError.message;
@@ -38,7 +41,8 @@ export default function useCreateValue() {
     isLoading, // return the isLoading state
     error: error.current, // return the error state
     success: success.current, // return the success state
-    pushValue // return the pushValue function
+    pushValue, // return the pushValue functionk
+    data: data.current // 
   }
 }
 

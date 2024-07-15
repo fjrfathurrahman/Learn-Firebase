@@ -3,6 +3,7 @@ import useGetValue from "../lib/hooks/useGetValue";
 
 export default function App() {
   const users = useGetValue({ path: "users", initialLoad: false });
+  console.log(users);
 
   const isLoading = users.isLoading;
   const dataUsers = Object.values(users.snapshot || {});
@@ -17,11 +18,11 @@ export default function App() {
         </h1>
 
         <div className="mt-3">
-          {dataUsers.map((user: any) => (
-            <li key={user.email} className="list-disc">
+          {dataUsers.length > 0 ? dataUsers.map((user: any, index) => (
+            <li key={index} className="list-disc">
               {user.username}
             </li>
-          ))}
+          )) : 'No Data !'}
         </div>
       </div>
     </RootLayouts>
